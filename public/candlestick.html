@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candlestick</title>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+        }
+        main {
+            display: flex;
+            flex-flow: row wrap;
+            height: 100%;
+            width: 100%;
+        }
+        div {
+            border: #98989d solid 0.5px;
+            box-sizing: border-box;
+            flex: 1 1 auto;
+            height: 100vh;
+            width: 100vw;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.5"></script>
+    <script>
+        const plot = async (input, selectors) => {
+            const response = await fetch(input)
+            const array = await response.json()
+            const utcParse = d3.utcParse("%Y-%m-%d")
+            const timeFormat = d3.timeFormat("%Y-%m-%d %H:%M")
+            const aapl = array
+                .map(x => ({
+                    Date: new Date(x[0]),
+                    Open: x[1],
+                    High: x[2],
+                    Low: x[3],
+                    Close: x[4],
+                }))
+            const container = document.querySelector(selectors)
+            const element = Plot.plot({
+                style: {
+                    background: "#171717",
+                    color: "#98989d",
+                },
+                marginTop: 0,
+                marginRight: 10,
+                marginBottom: 20,
+                width: container.offsetWidth,
+                height: container.offsetHeight,
+                x: {
+                    grid: true,
+                },
+                color: {
+                    domain: [-1, 0, 1],
+                    range: ["#ff6482", "#98989d", "#54c4bc"]
+                },
+                marks: [
+                    Plot.ruleX(aapl, {
+                        x: "Date",
+                        y1: "Low",
+                        y2: "High",
+                        stroke: d => Math.sign(d.Close - d.Open),
+                        strokeWidth: 0.8,
+                        title: d => `O: ${d.Open} H: ${d.High} L: ${d.Low} C: ${d.Close}`,
+                    }),
+                    Plot.ruleX(aapl, {
+                        x: "Date",
+                        y1: "Open",
+                        y2: "Close",
+                        stroke: d => Math.sign(d.Close - d.Open),
+                        strokeWidth: 3.2,
+                        title: d => `${timeFormat(d.Date)} O: ${d.Open} H: ${d.High} L: ${d.Low} C: ${d.Close}`,
+                    })
+                ]
+            })
+            const svg = container.querySelector("svg")
+            if (svg) svg.remove()
+            container.append(element)
+        }
+        const requestFullscreen = selectors => {
+            const container = document.querySelector(selectors)
+            if (container.requestFullscreen) return container.requestFullscreen()
+            if (container.mozRequestFullScreen) return container.mozRequestFullScreen()
+            if (container.msRequestFullscreen) return container.msRequestFullscreen()
+            if (container.webkitRequestFullscreen) return container.webkitRequestFullscreen()
+        }
+        document.addEventListener("DOMContentLoaded", async () => {
+            const values = [
+                plot("js/daily.json", "#container1"),
+            ]
+            await Promise.all(values)
+        })
+        window.addEventListener("keydown", event => {
+            if (event.defaultPrevented) return
+            switch (event.code) {
+                case "KeyF":
+                    requestFullscreen("main")
+                    event.preventDefault()
+                    break
+            }
+        }, true)
+        window.addEventListener("resize", async () => {
+            const values = [
+                plot("js/daily.json", "#container1"),
+            ]
+            await Promise.all(values)
+        })
+    </script>
+</head>
+
+<body>
+    <!-- https://observablehq.com/@d3/candlestick-chart -->
+    <!-- https://github.com/observablehq/plot -->
+    <main>
+        <div id="container1"></div>
+    </main>
+</body>
+
+</html>
