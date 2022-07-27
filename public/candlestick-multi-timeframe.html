@@ -61,7 +61,7 @@
                 },
                 color: {
                     domain: [-1, 0, 1],
-                    range: ["#ff6482", "#98989d", "#54c4bc"]
+                    range: ["#ff6482", "#98989d", "#54c4bc"],
                 },
                 marks: [
                     Plot.ruleX(aapl, {
@@ -70,7 +70,7 @@
                         y2: "High",
                         stroke: d => Math.sign(d.Close - d.Open),
                         strokeWidth: 0.8,
-                        title: d => `O: ${d.Open} H: ${d.High} L: ${d.Low} C: ${d.Close}`,
+                        title: d => `${timeFormat(d.Date)} O: ${d.Open} H: ${d.High} L: ${d.Low} C: ${d.Close}`,
                     }),
                     Plot.ruleX(aapl, {
                         x: "Date",
