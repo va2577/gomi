@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random</title>
+    <link rel="shortcut icon" href="img/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <h1><a href="./"><img src="img/icon.svg" alt=""></a>Random</h1>
+        <div>
+            <input type="range" id="range1" min="1" max="64" value="8">
+            <span id="span1"></span>
+        </div>
+        <div>
+            <input type="checkbox" id="checkbox1" checked><label for="checkbox1">英字(大文字)</label>
+        </div>
+        <div>
+            <input type="checkbox" id="checkbox2" checked><label for="checkbox2">英字(小文字)</label>
+        </div>
+        <div>
+            <input type="checkbox" id="checkbox3" checked><label for="checkbox3">数字</label>
+        </div>
+        <div>
+            <input type="checkbox" id="checkbox4"><label for="checkbox4">記号</label>
+        </div>
+        <hr>
+        <div id="div1"></div>
+    </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const createCharArray = (start, length) => {
+                const range = Array.from({ length: length }, (v, i) => i)
+                const array = range.map(x => String.fromCharCode(start + x))
+                return array
+            }
+            const getChar = arr => {
+                while (true) {
+                    const values = crypto.getRandomValues(new Uint8Array(1))
+                    const value = values[0]
+                    if (value < arr.length) {
+                        const result = arr[value]
+                        return result
+                    }
+                }
+            }
+            const compute = () => {
+                const range1 = document.querySelector("#range1")
+                const checkbox1 = document.querySelector("#checkbox1")
+                const checkbox2 = document.querySelector("#checkbox2")
+                const checkbox3 = document.querySelector("#checkbox3")
+                const checkbox4 = document.querySelector("#checkbox4")
+                const span1 = document.querySelector("#span1")
+                const div1 = document.querySelector("#div1")
+                const upper = createCharArray(65, 26)
+                const lower = createCharArray(97, 26)
+                const number = createCharArray(48, 10)
+                // \以外の記号
+                const symbol1 = createCharArray(33, 15)
+                const symbol2 = createCharArray(58, 7)
+                const symbol3 = createCharArray(91, 1)
+                const symbol4 = createCharArray(93, 4)
+                const symbol5 = createCharArray(123, 4)
+                const all = [
+                    ...(checkbox1.checked ? upper : []),
+                    ...(checkbox2.checked ? lower : []),
+                    ...(checkbox3.checked ? number : []),
+                    ...(checkbox4.checked ? symbol1 : []),
+                    ...(checkbox4.checked ? symbol2 : []),
+                    ...(checkbox4.checked ? symbol3 : []),
+                    ...(checkbox4.checked ? symbol4 : []),
+                    ...(checkbox4.checked ? symbol5 : []),
+                ]
+                const length = parseInt(range1.value)
+                const array = Array.from({ length: length }, (v, i) => i).map(x => getChar(all))
+                div1.textContent = array.join("")
+                span1.textContent = length
+            }
+            document.querySelector("#range1").addEventListener("input", compute)
+            document.querySelector("#checkbox1").addEventListener("input", compute)
+            document.querySelector("#checkbox2").addEventListener("input", compute)
+            document.querySelector("#checkbox3").addEventListener("input", compute)
+            document.querySelector("#checkbox4").addEventListener("input", compute)
+            compute()
+        })
+    </script>
+</body>
+
+</html>
