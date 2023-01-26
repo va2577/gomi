@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USDJPY 1970-2022</title>
+  <!--
+    1931-1950
+    1950-1980
+    https://ja.wikipedia.org/wiki/円相場
+  -->
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+    }
+
+    main {
+      height: 100vh;
+      width: 100vw;
+    }
+  </style>
+</head>
+
+<body>
+  <main></main>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
+  <script src="/js/usdjpy.js"></script>
+  <script>
+    const url = "usdjpy-1950-2022.csv"
+    const filter = d => new Date(1970, 0, 1) <= d.date
+  </script>
+</body>
+
+</html>
