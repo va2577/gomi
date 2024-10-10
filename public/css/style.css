@@ -27,3 +27,8 @@ a {
     color: rgb(118, 218, 255);
     text-decoration: none;
 }
+
+.icon {
+    height: 32px;
+    width: 32px;
+}

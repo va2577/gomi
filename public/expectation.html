@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volume</title>
+    <title>Expectation</title>
     <link rel="icon" href="img/favicon.png" type="image/png">
     <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
     <style>
@@ -101,12 +101,12 @@
             const isNotZero = x => parseFloat(x) !== 0
             const array1 = [
                 { element: element1, functions: [isNumeric], },
-                { element: element2, functions: [isNumeric], },
-                { element: element3, functions: [isNumeric, isNotZero], },
-                { element: element4, functions: [isNumeric, isNotZero], },
+                { element: element2, functions: [isNumeric, isNotZero], },
+                { element: element3, functions: [isNumeric], },
             ]
             const isValid = array1.every(x => x.functions.every(y => y(x.element.value)))
             if (!isValid) {
+                element4.value = "-"
                 element5.value = "-"
                 return;
             }
@@ -114,27 +114,28 @@
             const number1 = parseFloat(element1.value)
             const number2 = parseFloat(element2.value)
             const number3 = parseFloat(element3.value)
-            const number4 = parseFloat(element4.value)
-            const volume = (number1 * 10000) * (number2 * 0.01) * (1 / number3) * (1 / number4)
-            element5.value = volume.toFixed(2)
+            const number4 = number1 / number2
+            const number5 = (number3 * number4) - (100 - number3)
+            element4.value = number4.toFixed(2)
+            element5.value = number5.toFixed(2)
         }
     </script>
 </head>
 
 <body>
     <main>
-        <h1><a href="./"><img src="img/icon.svg" alt="" class="icon"></a>Volume</h1>
+        <h1><a href="./"><img src="img/icon.svg" alt="" class="icon"></a>Expectation</h1>
         <!-- <p>Want to upgrade your skills and get noticed? Participating in CodePen Challenges is a great way to try
             something new. We frequently feature these Pens on our homepage and across social media!</p> -->
-        <label for="name1">balance (ten thousand yen)</label>
-        <input type="number" name="name1" placeholder="100" value="100">
-        <label for="name2">risk (%)</label>
-        <input type="number" name="name2" placeholder="1" value="1">
-        <label for="name3">stop loss (pips)</label>
-        <input type="number" name="name3" placeholder="20" value="20">
-        <label for="name4">usdjpy (yen)</label>
-        <input type="number" name="name4" placeholder="100" value="100">
-        <label for="name5">volume (ten thousand)</label>
+        <label for="name1">平均利益</label>
+        <input type="number" name="name1" placeholder="140.59" value="140.59">
+        <label for="name2">平均損失</label>
+        <input type="number" name="name2" placeholder="9.69" value="9.69">
+        <label for="name3">勝率</label>
+        <input type="number" name="name3" placeholder="80" value="80">
+        <label for="name4">リスク・リワード・レシオ</label>
+        <input type="text" class="yellow" name="name4" readonly value="5.00">
+        <label for="name5">期待値</label>
         <input type="text" class="yellow" name="name5" readonly value="5.00">
     </main>
 </body>
