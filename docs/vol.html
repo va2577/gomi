@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Volume</title>
+    <link rel="icon" href="/img/16290097.png" type="image/png">
+    <link rel="apple-touch-icon" href="/img/16290097.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1 class="text-center">Volume</h1>
+    <form>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-4">
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input1" placeholder="1000000" value="1000000">
+                        <label for="input1">Balance</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input2" placeholder="2" value="2">
+                        <label for="input2">Risk (%)</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input3" placeholder="20" value="20">
+                        <label for="input3">Stop (Pips)</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input4" placeholder="100" value="100">
+                        <label for="input4">USDJPY (Yen)</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input5" placeholder="5.00" value="5.00">
+                        <label for="input5">Volume</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll("input").forEach(x => x.addEventListener("input", listener))
+            listener()
+            function listener() {
+                calculate()
+            }
+            function calculate() {
+                const value1 = document.getElementById("input1").valueAsNumber
+                const value2 = document.getElementById("input2").valueAsNumber
+                const value3 = document.getElementById("input3").valueAsNumber
+                const value4 = document.getElementById("input4").valueAsNumber
+                const input5 = document.getElementById("input5")
+                input5.value = "-"
+                if (isNaN(value1)) return
+                if (isNaN(value2)) return
+                if (isNaN(value3)) return
+                if (isNaN(value4)) return
+                if (value3 === 0) return
+                if (value4 === 0) return
+                const result = (value1 * 10000) * (value2 * 0.01) * (1 / value3) * (1 / value4)
+                input5.value = Math.floor(result / 100) * 100
+            }
+        })
+    </script>
+</body>
+
+</html>

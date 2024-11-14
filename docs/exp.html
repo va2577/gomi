@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Expected Value, Risk of Ruin</title>
+    <link rel="icon" href="/img/16290097.png" type="image/png">
+    <link rel="apple-touch-icon" href="/img/16290097.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1 class="text-center">Expected Value, Risk of Ruin</h1>
+    <form>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-4">
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input1" placeholder="20000" value="20000">
+                        <label for="input1">Potential Profit</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input2" placeholder="10000" value="10000">
+                        <label for="input2">Potential Loss</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input3" placeholder="50" value="50">
+                        <label for="input3">Win Loss Ratio (%)</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input4" placeholder="2.00" value="2.00">
+                        <label for="input4">Risk Reward Ratio</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input5" placeholder="50.00" value="50.00">
+                        <label for="input5">Expected Value</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input6" placeholder="1000000" value="1000000">
+                        <label for="input6">Balance</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input7" placeholder="500000" value="500000">
+                        <label for="input7">Ruin Point</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input8" placeholder="2" value="2">
+                        <label for="input8">Risk (%)</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input9" placeholder="0.00" value="0.00">
+                        <label for="input9">Probility of Ruin (%)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll("input").forEach(x => x.addEventListener("input", listener))
+            listener()
+            function listener() {
+                calculate2()
+                calculate()
+            }
+            function calculate2() {
+                const value1 = document.getElementById("input1").valueAsNumber
+                const value2 = document.getElementById("input2").valueAsNumber
+                const value3 = document.getElementById("input3").valueAsNumber
+                const input4 = document.getElementById("input4")
+                const input5 = document.getElementById("input5")
+                input4.value = "-"
+                input5.value = "-"
+                if (isNaN(value1)) return
+                if (isNaN(value2)) return
+                if (isNaN(value3)) return
+                if (value2 === 0) return
+                const value4 = value1 / value2
+                const value5 = (value3 * value4) - (100 - value3)
+                input4.value = value4.toFixed(2)
+                input5.value = value5.toFixed(2)
+            }
+            function calculateX(P, R) {
+                const exponent = 5
+                const pow = Math.pow(10, -exponent)
+                for (let x = pow; x < 1; x += pow) {
+                    const tmp = P * Math.pow(x, R + 1) - x + 1 - P
+                    const isZero = Math.floor(Math.abs(tmp) / pow) === 0
+                    if (isZero) return x
+                }
+                return 1
+            }
+            function calculateB(P, k, R, A, B) {
+                const a = Math.log(1 + R * k)
+                const b = Math.abs(Math.log(1 - k))
+                const n = Math.log(A / B)
+                const x = calculateX(P, a / b)
+                const result = Math.pow(x, n / b)
+                return result
+            }
+            function calculate() {
+                const a = document.getElementById("input1").valueAsNumber
+                const b = document.getElementById("input2").valueAsNumber
+                const P = document.getElementById("input3").valueAsNumber
+                const A = document.getElementById("input6").valueAsNumber
+                const B = document.getElementById("input7").valueAsNumber
+                const k = document.getElementById("input8").valueAsNumber
+                const inupt9 = document.getElementById("input9")
+                inupt9.value = "-"
+                if (isNaN(a)) return
+                if (isNaN(b)) return
+                if (isNaN(P)) return
+                if (isNaN(A)) return
+                if (isNaN(B)) return
+                if (isNaN(k)) return
+                if (b === 0) return
+                if (B === 0) return
+                const R = a / b
+                const result = calculateB(P / 100, k / 100, R, A, B) * 100
+                input9.value = result.toFixed(2)
+            }
+        })
+    </script>
+</body>
+
+</html>
