@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Expected Value Simulation</title>
+    <link rel="icon" href="img/16290097.png" type="image/png">
+    <link rel="apple-touch-icon" href="img/16290097.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand">
+        <div class="container-fluid">
+            <ul class="navbar-nav gap-3">
+                <li class="nav-item">
+                    <button type="button" class="btn btn-dark p-0" data-bs-toggle="modal" data-bs-target="#modal1">
+                        <img src="img/gear.svg" alt="gear" width="40" height="40" class="bg-light rounded">
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-dark p-0" id="button2">
+                        <img src="img/play.svg" alt="play" width="40" height="40" class="bg-light rounded">
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control text-end fs-2 font-monospace" id="input1" placeholder="100" value="100">
+                                    <label for="input1">Count</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control text-end fs-2 font-monospace" id="input2" placeholder="20000" value="20000" step="100">
+                                    <label for="input2">Potential Profiit</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control text-end fs-2 font-monospace" id="input3" placeholder="10000" value="10000" step="100">
+                                    <label for="input3">Potential Loss</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control text-end fs-2 font-monospace" id="input4" placeholder="50" value="50">
+                                    <label for="input4">Win Loss Ratio (%)</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control text-end fs-2 font-monospace text-info-emphasis" id="input5" placeholder="2.00" value="2.00" readonly>
+                                    <label for="input5">Risk Reward Ratio</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control text-end fs-2 font-monospace text-info-emphasis" id="input6" placeholder="50.00" value="50.00" readonly>
+                                    <label for="input6">Expected Value</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll("input").forEach(x => x.addEventListener("input", listener))
+            function listener() {
+                calculate()
+            }
+            function calculate() {
+                const value1 = document.getElementById("input2").valueAsNumber
+                const value2 = document.getElementById("input3").valueAsNumber
+                const value3 = document.getElementById("input4").valueAsNumber
+                const input5 = document.getElementById("input5")
+                const input6 = document.getElementById("input6")
+                input5.value = "-"
+                input6.value = "-"
+                if (isNaN(value1)) return
+                if (isNaN(value2)) return
+                if (isNaN(value3)) return
+                if (value2 === 0) return
+                const value4 = value1 / value2
+                const value5 = (value3 * value4) - (100 - value3)
+                input5.value = value4.toFixed(2)
+                input6.value = value5.toFixed(2)
+            }
+        })
+        document.addEventListener("DOMContentLoaded", () => {
+            const CHART_COLORS = {
+                red: "rgb(255, 99, 132)",
+                orange: "rgb(255, 159, 64)",
+                yellow: "rgb(255, 205, 86)",
+                green: "rgb(75, 192, 192)",
+                blue: "rgb(54, 162, 235)",
+                purple: "rgb(153, 102, 255)",
+                grey: "rgb(201, 203, 207)",
+            }
+            const element = document.getElementById("myChart")
+            const tmp = document.getElementById("input1").valueAsNumber
+            const config = {
+                type: "line",
+                data: {
+                    labels: [...Array(tmp).keys()],
+                    datasets: [{
+                        label: "test",
+                        data: [],
+                        borderColor: CHART_COLORS.blue,
+                        fill: false,
+                        tension: 0.4,
+                    }],
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                },
+            }
+            const chart = new Chart(element, config)
+            document.getElementById("button2").addEventListener("click", () => {
+                const n1 = document.getElementById("input1").valueAsNumber
+                const n2 = document.getElementById("input2").valueAsNumber
+                const n3 = document.getElementById("input3").valueAsNumber
+                const n4 = document.getElementById("input4").valueAsNumber
+                const a1 = [...Array(n1).keys()]
+                const a2 = a1.map(x => Math.random() <= (n4 / 100) ? n2 : -n3)
+                const a3 = a2.map((sum => value => sum += value)(0))
+                chart.data.labels = a1
+                chart.data.datasets[0].data = a3
+                chart.update()
+            })
+        })
+        document.addEventListener("DOMContentLoaded", () => {
+            const modal1 = new bootstrap.Modal('#modal1')
+            modal1.show()
+        })
+    </script>
+</body>
+
+</html>

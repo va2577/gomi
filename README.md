@@ -1,4 +1,4 @@
-# GUIDED STRAW
+# gomi
 
 ## GitHub Pages
 
@@ -11,3 +11,12 @@
 > プロジェクトサイトのソースファイルは、プロジェクトと同じリポジトリに保存されます。 カスタム ドメインを使用している場合を除き、プロジェクト サイトは http(s)://<username>.github.io/<repository> または http(s)://<organization>.github.io/<repository> で利用できます。
 > 
 > <cite>[GitHub Pages について - GitHub Docs](https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages#github-pages-サイトの種類)</cite>
+
+## Icons
+
+* [Octicons](https://primer.github.io/octicons/)
+* [Bootstrap Icons · Official open source SVG icon library for Bootstrap](https://icons.getbootstrap.com/)
+
+## TODO
+
+* [ ] Chart.jsのCDNのバージョン？
