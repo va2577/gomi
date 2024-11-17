@@ -84,21 +84,21 @@
                 calculate()
             }
             function calculate() {
-                const value1 = document.getElementById("input2").valueAsNumber
-                const value2 = document.getElementById("input3").valueAsNumber
-                const value3 = document.getElementById("input4").valueAsNumber
+                const value2 = document.getElementById("input2").valueAsNumber
+                const value3 = document.getElementById("input3").valueAsNumber
+                const value4 = document.getElementById("input4").valueAsNumber
                 const input5 = document.getElementById("input5")
                 const input6 = document.getElementById("input6")
                 input5.value = "-"
                 input6.value = "-"
-                if (isNaN(value1)) return
                 if (isNaN(value2)) return
                 if (isNaN(value3)) return
-                if (value2 === 0) return
-                const value4 = value1 / value2
-                const value5 = (value3 * value4) - (100 - value3)
-                input5.value = value4.toFixed(2)
-                input6.value = value5.toFixed(2)
+                if (isNaN(value4)) return
+                if (value3 === 0) return
+                const value5 = value2 / value3
+                const value6 = (value4 * value5) - (100 - value4)
+                input5.value = value5.toFixed(2)
+                input6.value = value6.toFixed(2)
             }
         })
         document.addEventListener("DOMContentLoaded", () => {
@@ -118,7 +118,7 @@
                 data: {
                     labels: [...Array(tmp).keys()],
                     datasets: [{
-                        label: "test",
+                        label: "Balance",
                         data: [],
                         borderColor: CHART_COLORS.blue,
                         fill: false,
