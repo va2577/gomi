@@ -33,8 +33,12 @@
                         <label for="input4">USDJPY (Yen)</label>
                     </div>
                     <div class="form-floating">
-                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input5" placeholder="5.00" value="5.00">
-                        <label for="input5">Volume</label>
+                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input5" placeholder="20000" value="20000">
+                        <label for="input5">Loss</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input6" placeholder="10000" value="10000">
+                        <label for="input6">Volume</label>
                     </div>
                 </div>
             </div>
@@ -54,15 +58,19 @@
                 const value3 = document.getElementById("input3").valueAsNumber
                 const value4 = document.getElementById("input4").valueAsNumber
                 const input5 = document.getElementById("input5")
+                const input6 = document.getElementById("input6")
                 input5.value = "-"
+                input6.value = "-"
                 if (isNaN(value1)) return
                 if (isNaN(value2)) return
                 if (isNaN(value3)) return
                 if (isNaN(value4)) return
                 if (value3 === 0) return
                 if (value4 === 0) return
-                const result = (value1 * 10000) * (value2 * 0.01) * (1 / value3) * (1 / value4)
-                input5.value = Math.floor(result / 100) * 100
+                const value5 = (value1) * (value2 * 0.01)
+                const value6 = (value1 * 10000) * (value2 * 0.01) * (1 / value3) * (1 / value4)
+                input5.value = Math.floor(value5 / 100) * 100
+                input6.value = Math.floor(value6 / 100) * 100
             }
         })
     </script>
