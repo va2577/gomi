@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Maximum gain, Maximum loss</title>
+    <link rel="icon" href="img/16290097.png" type="image/png">
+    <link rel="apple-touch-icon" href="img/16290097.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1 class="text-center">Maximum gain, Maximum loss</h1>
+    <form>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-4">
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input01" placeholder="150.693" value="150.693">
+                        <label for="input01">High</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input02" placeholder="149.351" value="149.351">
+                        <label for="input02">Low</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input03" placeholder="150.011" value="150.011">
+                        <label for="input03">Close</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input04" placeholder="1.536" value="1.536">
+                        <label for="input04">ATR</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input05" placeholder="1000000" value="1000000" step="10000">
+                        <label for="input05">Balance (¥)</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input06" placeholder="2" value="2">
+                        <label for="input06">Risk (%)</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input07" placeholder="1.000" value="1.000">
+                        <label for="input07">Rate (¥)</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input08" placeholder="49.2" value="49.2">
+                        <label for="input08">%</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input09" placeholder="4.608" value="4.608">
+                        <label for="input09">ATR*3</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input10" placeholder="145.403" value="145.403">
+                        <label for="input10">Close-ATR*3</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input11" placeholder="154.619" value="154.619">
+                        <label for="input11">Close+ATR*3</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input12" placeholder="4300" value="4300">
+                        <label for="input12">Volume</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input13" placeholder="20000" value="20000">
+                        <label for="input13">Risk (¥)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll("input").forEach(x => x.addEventListener("input", listener))
+            listener()
+            function listener() {
+                const value01 = document.getElementById("input01").valueAsNumber
+                const value02 = document.getElementById("input02").valueAsNumber
+                const value03 = document.getElementById("input03").valueAsNumber
+                const value04 = document.getElementById("input04").valueAsNumber
+                const value05 = document.getElementById("input05").valueAsNumber
+                const value06 = document.getElementById("input06").valueAsNumber
+                const value07 = document.getElementById("input07").valueAsNumber
+                const input08 = document.getElementById("input08")
+                const input09 = document.getElementById("input09")
+                const input10 = document.getElementById("input10")
+                const input11 = document.getElementById("input11")
+                const input12 = document.getElementById("input12")
+                const input13 = document.getElementById("input13")
+                input08.value = "-"
+                input09.value = "-"
+                input10.value = "-"
+                input11.value = "-"
+                input12.value = "-"
+                input13.value = "-"
+                if (isNaN(value01)) return
+                if (isNaN(value02)) return
+                if (isNaN(value03)) return
+                if (isNaN(value04)) return
+                if (isNaN(value05)) return
+                if (isNaN(value06)) return
+                if (isNaN(value07)) return
+                if (value01 === 0.0) return
+                if (value02 === 0.0) return
+                if (value03 === 0.0) return
+                if (value04 === 0.0) return
+                if (value05 === 0.0) return
+                if (value06 === 0.0) return
+                if (value07 === 0.0) return
+                const value08 = (value03 - value02) / (value01 - value02) * 100
+                const value09 = value04 * 3
+                const value10 = value03 - value09
+                const value11 = value03 + value09
+                const value12 = value05 * (value06 / 100) * (1 / value09) * (1 / value07)
+                const value13 = value05 * (value06 / 100)
+                const ndigits = value07 !== 1.0 ? 5 : 3
+                input08.value = value08.toFixed(1)
+                input09.value = value09.toFixed(ndigits)
+                input10.value = value10.toFixed(ndigits)
+                input11.value = value11.toFixed(ndigits)
+                input12.value = (Math.floor(value12 / 100) * 100).toFixed(0)
+                input13.value = Math.floor(value13).toFixed(0)
+            }
+        })
+    </script>
+</body>
+
+</html>
