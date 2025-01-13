@@ -123,6 +123,12 @@
                         borderColor: CHART_COLORS.blue,
                         fill: false,
                         tension: 0.4,
+                    }, {
+                        label: "Balance Average",
+                        data: [],
+                        borderColor: CHART_COLORS.purple,
+                        fill: false,
+                        tension: 0.4,
                     }],
                 },
                 options: {
@@ -140,10 +146,11 @@
                 const n3 = document.getElementById("input3").valueAsNumber
                 const n4 = document.getElementById("input4").valueAsNumber
                 const a1 = [...Array(n1).keys()]
-                const a2 = a1.map(x => Math.random() <= (n4 / 100) ? n2 : -n3)
-                const a3 = a2.map((sum => value => sum += value)(0))
+                const a2 = a1.map(x => Math.random() <= (n4 / 100) ? n2 : -n3).map((sum => value => sum += value)(0))
+                const a3 = a1.map(x => (n2 * n4 / 100) - (n3 * (100 - n4) / 100)).map((sum => value => sum += value)(0))
                 chart.data.labels = a1
-                chart.data.datasets[0].data = a3
+                chart.data.datasets[0].data = a2
+                chart.data.datasets[1].data = a3
                 chart.update()
             })
         })
