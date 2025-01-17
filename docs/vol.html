@@ -13,32 +13,78 @@
 <body>
     <h1 class="text-center">Volume</h1>
     <form>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-pane1" type="button" role="tab">Pips</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-pane2" type="button" role="tab">Price</button>
+            </li>
+        </ul>
         <div class="container">
-            <div class="row justify-content-center">
+            <div class="row d-flex justify-content-center">
                 <div class="col-sm-4">
-                    <div class="form-floating">
-                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input1" placeholder="1000000" value="1000000">
-                        <label for="input1">Balance</label>
-                    </div>
-                    <div class="form-floating">
-                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input2" placeholder="2" value="2">
-                        <label for="input2">Risk (%)</label>
-                    </div>
-                    <div class="form-floating">
-                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input3" placeholder="20" value="20">
-                        <label for="input3">Stop (Pips)</label>
-                    </div>
-                    <div class="form-floating">
-                        <input type="number" class="form-control text-end fs-2 font-monospace" id="input4" placeholder="100" value="100">
-                        <label for="input4">USDJPY (Yen)</label>
-                    </div>
-                    <div class="form-floating">
-                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input5" placeholder="20000" value="20000">
-                        <label for="input5">Loss</label>
-                    </div>
-                    <div class="form-floating">
-                        <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input6" placeholder="10000" value="10000">
-                        <label for="input6">Volume</label>
+                    <div class="tab-content">
+                        <div class="tab-pane fade" id="tab-pane1" role="tabpanel">
+                            <div class="form-floating">
+                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input1" placeholder="1000000" value="1000000">
+                                <label for="input1">Balance</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input2" placeholder="2" value="2">
+                                <label for="input2">Risk (%)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input3" placeholder="20" value="20">
+                                <label for="input3">Stop (Pips)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input4" placeholder="100" value="100">
+                                <label for="input4">USDJPY (Yen)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input5" placeholder="20000" value="20000">
+                                <label for="input5">Loss</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input6" placeholder="10000" value="10000">
+                                <label for="input6">Volume</label>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade show active" id="tab-pane2" role="tabpanel">
+                            <div class="form-floating">
+                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input21" placeholder="1000000" value="1000000">
+                                <label for="input21">Balance</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input22" placeholder="2" value="2">
+                                <label for="input22">Risk (%)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input23" placeholder="150.20" value="150.20">
+                                <label for="input23">Entry (Price)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input24" placeholder="150.00" value="150.00">
+                                <label for="input24">Stop (Price)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input25" placeholder="100.00" value="100.00">
+                                <label for="input25">USDJPY (Yen)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input26" placeholder="20000" value="20000">
+                                <label for="input26">Loss</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input27" placeholder="10000" value="10000">
+                                <label for="input27">Volume</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input28" placeholder="20.00" value="20.00">
+                                <label for="input28">Pips</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,6 +117,40 @@
                 const value6 = (value1 * 10000) * (value2 * 0.01) * (1 / value3) * (1 / value4)
                 input5.value = Math.floor(value5 / 100) * 100
                 input6.value = Math.floor(value6 / 100) * 100
+            }
+        })
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll("input").forEach(x => x.addEventListener("input", listener))
+            listener()
+            function listener() {
+                calculate()
+            }
+            function calculate() {
+                const value1 = document.getElementById("input21").valueAsNumber
+                const value2 = document.getElementById("input22").valueAsNumber
+                const value3 = document.getElementById("input23").valueAsNumber
+                const value4 = document.getElementById("input24").valueAsNumber
+                const value5 = document.getElementById("input25").valueAsNumber
+                const input6 = document.getElementById("input26")
+                const input7 = document.getElementById("input27")
+                const input8 = document.getElementById("input28")
+                input6.value = "-"
+                input7.value = "-"
+                input8.value = "-"
+                if (isNaN(value1)) return
+                if (isNaN(value2)) return
+                if (isNaN(value3)) return
+                if (isNaN(value4)) return
+                if (isNaN(value5)) return
+                if (Math.abs(value3 - value4) === 0) return
+                if (value5 === 0) return
+                const exponent = value5 === 100 ? 2 : 4
+                const pips = Math.abs(value3 - value4) * Math.pow(10, exponent)
+                const value6 = (value1) * (value2 * 0.01)
+                const value7 = (value1 * 10000) * (value2 * 0.01) * (1 / pips) * (1 / value5)
+                input6.value = Math.floor(value6 / 100) * 100
+                input7.value = Math.floor(value7 / 100) * 100
+                input8.value = pips.toFixed(2)
             }
         })
     </script>
