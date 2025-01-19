@@ -69,20 +69,32 @@
                                 <label for="input24">Stop (Price)</label>
                             </div>
                             <div class="form-floating">
-                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input25" placeholder="100.00" value="100.00">
-                                <label for="input25">USDJPY (Yen)</label>
+                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input25" placeholder="150.60" value="150.60">
+                                <label for="input25">Limit (Price)</label>
                             </div>
                             <div class="form-floating">
-                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input26" placeholder="20000" value="20000">
-                                <label for="input26">Loss</label>
+                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input26" placeholder="100.00" value="100.00">
+                                <label for="input26">USDJPY (Yen)</label>
                             </div>
                             <div class="form-floating">
-                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input27" placeholder="10000" value="10000">
-                                <label for="input27">Volume</label>
+                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input27" placeholder="20000" value="20000">
+                                <label for="input27">Loss</label>
                             </div>
                             <div class="form-floating">
-                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input28" placeholder="20.00" value="20.00">
-                                <label for="input28">Pips</label>
+                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input28" placeholder="10000" value="10000">
+                                <label for="input28">Volume</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input29" placeholder="20.00" value="20.00">
+                                <label for="input29">Stop (Pips)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input30" placeholder="40.00" value="40.00">
+                                <label for="input30">Limit (Pips)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input31" placeholder="2.00" value="2.00">
+                                <label for="input31">Risk Reward Ratio</label>
                             </div>
                         </div>
                     </div>
@@ -126,31 +138,41 @@
                 calculate()
             }
             function calculate() {
-                const value1 = document.getElementById("input21").valueAsNumber
-                const value2 = document.getElementById("input22").valueAsNumber
-                const value3 = document.getElementById("input23").valueAsNumber
-                const value4 = document.getElementById("input24").valueAsNumber
-                const value5 = document.getElementById("input25").valueAsNumber
-                const input6 = document.getElementById("input26")
-                const input7 = document.getElementById("input27")
-                const input8 = document.getElementById("input28")
-                input6.value = "-"
-                input7.value = "-"
-                input8.value = "-"
-                if (isNaN(value1)) return
-                if (isNaN(value2)) return
-                if (isNaN(value3)) return
-                if (isNaN(value4)) return
-                if (isNaN(value5)) return
-                if (Math.abs(value3 - value4) === 0) return
-                if (value5 === 0) return
-                const exponent = value5 === 100 ? 2 : 4
-                const pips = Math.abs(value3 - value4) * Math.pow(10, exponent)
-                const value6 = (value1) * (value2 * 0.01)
-                const value7 = (value1 * 10000) * (value2 * 0.01) * (1 / pips) * (1 / value5)
-                input6.value = Math.floor(value6 / 100) * 100
-                input7.value = Math.floor(value7 / 100) * 100
-                input8.value = pips.toFixed(2)
+                const input21 = document.getElementById("input21").valueAsNumber
+                const input22 = document.getElementById("input22").valueAsNumber
+                const input23 = document.getElementById("input23").valueAsNumber
+                const input24 = document.getElementById("input24").valueAsNumber
+                const input25 = document.getElementById("input25").valueAsNumber
+                const input26 = document.getElementById("input26").valueAsNumber
+                const input27 = document.getElementById("input27")
+                const input28 = document.getElementById("input28")
+                const input29 = document.getElementById("input29")
+                const input30 = document.getElementById("input30")
+                const input31 = document.getElementById("input31")
+                input27.value = "-"
+                input28.value = "-"
+                input29.value = "-"
+                input30.value = "-"
+                input31.value = "-"
+                if (isNaN(input21)) return
+                if (isNaN(input22)) return
+                if (isNaN(input23)) return
+                if (isNaN(input24)) return
+                if (isNaN(input25)) return
+                if (isNaN(input26)) return
+                if (Math.abs(input23 - input24) === 0) return
+                if (input26 === 0) return
+                const exponent = input26 === 100 ? 2 : 4
+                const pips1 = Math.abs(input23 - input24) * Math.pow(10, exponent)
+                const pips2 = Math.abs(input23 - input25) * Math.pow(10, exponent)
+                const value27 = (input21) * (input22 * 0.01)
+                const value28 = (input21 * 10000) * (input22 * 0.01) * (1 / pips1) * (1 / input26)
+                const value31 = pips2 / pips1
+                input27.value = Math.floor(value27 / 100) * 100
+                input28.value = Math.floor(value28 / 100) * 100
+                input29.value = pips1.toFixed(2)
+                input30.value = pips2.toFixed(2)
+                input31.value = value31.toFixed(2)
             }
         })
     </script>
