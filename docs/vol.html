@@ -39,16 +39,16 @@
                                 <label for="input3">Stop (Pips)</label>
                             </div>
                             <div class="form-floating">
-                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input4" placeholder="100" value="100">
+                                <input type="number" class="form-control text-end fs-2 font-monospace" id="input4" placeholder="100.00" value="100.00">
                                 <label for="input4">USDJPY (Yen)</label>
                             </div>
-                            <div class="form-floating">
-                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input5" placeholder="20000" value="20000">
-                                <label for="input5">Loss</label>
+                            <div class="form-floating result1">
+                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" placeholder="20000" value="20000">
+                                <label>Loss</label>
                             </div>
-                            <div class="form-floating">
-                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" id="input6" placeholder="10000" value="10000">
-                                <label for="input6">Volume</label>
+                            <div class="form-floating result1">
+                                <input type="number" disabled class="form-control text-end fs-2 font-monospace text-info" placeholder="10000" value="10000">
+                                <label>Volume</label>
                             </div>
                         </div>
                         <div class="tab-pane fade show active" id="tab-pane2" role="tabpanel">
@@ -115,20 +115,40 @@
                 const value2 = document.getElementById("input2").valueAsNumber
                 const value3 = document.getElementById("input3").valueAsNumber
                 const value4 = document.getElementById("input4").valueAsNumber
-                const input5 = document.getElementById("input5")
-                const input6 = document.getElementById("input6")
-                input5.value = "-"
-                input6.value = "-"
                 if (isNaN(value1)) return
                 if (isNaN(value2)) return
                 if (isNaN(value3)) return
                 if (isNaN(value4)) return
                 if (value3 === 0) return
                 if (value4 === 0) return
-                const value5 = (value1) * (value2 * 0.01)
-                const value6 = (value1 * 10000) * (value2 * 0.01) * (1 / value3) * (1 / value4)
-                input5.value = Math.floor(value5 / 100) * 100
-                input6.value = Math.floor(value6 / 100) * 100
+                const loss = Math.floor((value1) * (value2 * 0.01) / 100) * 100
+                const volume = Math.floor((value1 * 10000) * (value2 * 0.01) * (1 / value3) * (1 / value4) / 100) * 100
+                const array = [...Array(100).keys()]
+                    .map(x => x + 1)
+                    .map(x => (value1 * 10000) * (value2 * 0.01) * (1 / x) * (1 / value4))
+                    .map(x => Math.floor(x / 100) * 100)
+                document.querySelectorAll(".result1").forEach(element => element.remove())
+                const tabPane1 = document.getElementById("tab-pane1")
+                tabPane1.appendChild(createElement("Loss", loss))
+                tabPane1.appendChild(createElement("Volume", volume))
+                for (const value of array) {
+                    tabPane1.appendChild(createElement(`Volume (${array.indexOf(value) + 1}pips)`, value))
+                }
+            }
+            function createElement(textContent, value) {
+                const input = document.createElement("input")
+                input.classList.add("form-control", "text-end", "fs-2", "font-monospace", "text-info")
+                input.disabled = true
+                input.placeholder = value
+                input.type = "number"
+                input.value = value
+                const label = document.createElement("label")
+                label.textContent = textContent
+                const div = document.createElement("div")
+                div.classList.add("form-floating", "result1")
+                div.appendChild(input)
+                div.appendChild(label)
+                return div
             }
         })
         document.addEventListener("DOMContentLoaded", () => {
