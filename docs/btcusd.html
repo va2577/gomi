@@ -13,9 +13,50 @@
         https://finance.yahoo.com/quote/BTC-USD/history/ ~2025-01-31
         https://coinmarketcap.com/currencies/bitcoin/ 2025-02-01~
     -->
+    <style>
+        #tap-zone {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            z-index: 9999;
+            background-color: rgba(0, 0, 0, 0);
+        }
+    </style>
 </head>
 
 <body>
+    <div id="tap-zone"></div>
+    <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control text-end fs-2 font-monospace" id="input1" placeholder="100000" value="100000">
+                                    <label for="input1">資金</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control text-end fs-2 font-monospace" id="input2" placeholder="15000000" value="15000000">
+                                    <label for="input2">価格</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control text-end fs-2 font-monospace text-info-emphasis" id="input3" placeholder="0.006666666" value="0.006666666" readonly>
+                                    <label for="input3">数量</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -97,6 +138,45 @@
                 }
                 const chart = new Chart(element, config)
             }
+        })
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll("input").forEach(x => x.addEventListener("input", listener))
+            listener()
+            function listener() {
+                calculate()
+            }
+            function calculate() {
+                const length = 8
+                const value1 = document.getElementById("input1").valueAsNumber
+                const value2 = document.getElementById("input2").valueAsNumber
+                if (isNaN(value1)) return
+                if (isNaN(value2)) return
+                if (value2 === 0) return
+                document.getElementById("input3").value = truncateDecimal(value1 / value2, length).toFixed(length)
+            }
+            function truncateDecimal(value, digits) {
+                const factor = Math.pow(10, digits)
+                return Math.floor(value * factor) / factor
+            }
+        })
+        document.addEventListener("DOMContentLoaded", () => {
+            const tapZone = document.getElementById("tap-zone")
+            let tapCount = 0
+            let lastTapTime = 0
+            tapZone.addEventListener("pointerup", () => {
+                const now = Date.now()
+                if (now - lastTapTime < 500) {
+                    tapCount += 1
+                } else {
+                    tapCount = 1
+                }
+                lastTapTime = now
+                if (tapCount === 2) {
+                    const myModal = bootstrap.Modal.getOrCreateInstance("#modal1")
+                    myModal.show()
+                    tapCount = 0
+                }
+            })
         })
     </script>
 </body>
