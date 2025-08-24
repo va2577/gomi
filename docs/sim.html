@@ -38,8 +38,8 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-floating mb-3">
-                                    <input type="number" class="form-control text-end fs-2 font-monospace" id="input1" placeholder="100" value="100">
-                                    <label for="input1">Count</label>
+                                    <input type="number" class="form-control text-end fs-2 font-monospace" id="input1" placeholder="1000000" value="1000000">
+                                    <label for="input1">Balance</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="number" class="form-control text-end fs-2 font-monospace" id="input2" placeholder="20000" value="20000" step="100">
@@ -54,12 +54,16 @@
                                     <label for="input4">Win Loss Ratio (%)</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="number" class="form-control text-end fs-2 font-monospace text-info-emphasis" id="input5" placeholder="2.00" value="2.00" readonly>
-                                    <label for="input5">Risk Reward Ratio</label>
+                                    <input type="number" class="form-control text-end fs-2 font-monospace" id="input5" placeholder="100" value="100">
+                                    <label for="input5">Count</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="number" class="form-control text-end fs-2 font-monospace text-info-emphasis" id="input6" placeholder="50.00" value="50.00" readonly>
-                                    <label for="input6">Expected Value</label>
+                                    <input type="number" class="form-control text-end fs-2 font-monospace text-info-emphasis" id="input6" placeholder="2.00" value="2.00" readonly>
+                                    <label for="input6">Risk Reward Ratio</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control text-end fs-2 font-monospace text-info-emphasis" id="input7" placeholder="50.00" value="50.00" readonly>
+                                    <label for="input7">Expected Value</label>
                                 </div>
                             </div>
                         </div>
@@ -87,18 +91,18 @@
                 const value2 = document.getElementById("input2").valueAsNumber
                 const value3 = document.getElementById("input3").valueAsNumber
                 const value4 = document.getElementById("input4").valueAsNumber
-                const input5 = document.getElementById("input5")
                 const input6 = document.getElementById("input6")
-                input5.value = "-"
+                const input7 = document.getElementById("input7")
                 input6.value = "-"
+                input7.value = "-"
                 if (isNaN(value2)) return
                 if (isNaN(value3)) return
                 if (isNaN(value4)) return
                 if (value3 === 0) return
-                const value5 = value2 / value3
-                const value6 = (value4 * value5) - (100 - value4)
-                input5.value = value5.toFixed(2)
+                const value6 = value2 / value3
+                const value7 = (value4 * value6) - (100 - value4)
                 input6.value = value6.toFixed(2)
+                input7.value = value7.toFixed(2)
             }
         })
         document.addEventListener("DOMContentLoaded", () => {
@@ -118,15 +122,21 @@
                 data: {
                     labels: [...Array(tmp).keys()],
                     datasets: [{
-                        label: "Balance",
+                        label: "Balance Average",
+                        data: [],
+                        borderColor: CHART_COLORS.purple,
+                        fill: false,
+                        tension: 0.4,
+                    }, {
+                        label: "Balance Simple",
                         data: [],
                         borderColor: CHART_COLORS.blue,
                         fill: false,
                         tension: 0.4,
                     }, {
-                        label: "Balance Average",
+                        label: "Balance Compound",
                         data: [],
-                        borderColor: CHART_COLORS.purple,
+                        borderColor: CHART_COLORS.green,
                         fill: false,
                         tension: 0.4,
                     }],
@@ -141,16 +151,22 @@
             }
             const chart = new Chart(element, config)
             document.getElementById("button2").addEventListener("click", () => {
-                const n1 = document.getElementById("input1").valueAsNumber
-                const n2 = document.getElementById("input2").valueAsNumber
-                const n3 = document.getElementById("input3").valueAsNumber
-                const n4 = document.getElementById("input4").valueAsNumber
-                const a1 = [...Array(n1).keys()]
-                const a2 = a1.map(x => Math.random() <= (n4 / 100) ? n2 : -n3).map((sum => value => sum += value)(0))
-                const a3 = a1.map(x => (n2 * n4 / 100) - (n3 * (100 - n4) / 100)).map((sum => value => sum += value)(0))
-                chart.data.labels = a1
-                chart.data.datasets[0].data = a2
-                chart.data.datasets[1].data = a3
+                const initialBalance = document.getElementById("input1").valueAsNumber  // 初期残高(1,000,000円)
+                const avgProfit = document.getElementById("input2").valueAsNumber  // 平均利益(20_000円)
+                const avgLoss = document.getElementById("input3").valueAsNumber  // 平均損失(10_000円)
+                const winRate = document.getElementById("input4").valueAsNumber / 100  // 勝率(60%→0.60)
+                const trades = document.getElementById("input5").valueAsNumber  // トレード回数(100)
+                const profitRatio = avgProfit / initialBalance // リスク割合(0.02)
+                const lossRatio = avgLoss / initialBalance // リスク割合(0.01)
+                const a1 = [...Array(trades).keys()]
+                const tradeOutcomes = a1.map(x => Math.random() < winRate)
+                const a2 = a1.map(x => (avgProfit * winRate) - (avgLoss * (1 - winRate))).map((sum => value => sum += value)(initialBalance))
+                const a3 = tradeOutcomes.map(x => x ? avgProfit : -avgLoss).map((sum => value => sum += value)(initialBalance))
+                const a4 = tradeOutcomes.map(x => x ? profitRatio : -lossRatio).map((sum => value => sum *= (1 + value))(initialBalance))
+                chart.data.labels = [...a1, trades]
+                chart.data.datasets[0].data = [initialBalance, ...a2]
+                chart.data.datasets[1].data = [initialBalance, ...a3]
+                chart.data.datasets[2].data = [initialBalance, ...a4]
                 chart.update()
             })
         })
