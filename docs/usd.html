@@ -24,6 +24,17 @@
         [統計別検索](https://www.stat-search.boj.or.jp/ssi/cgi-bin/famecgi2?cgi=%24nme_a000&lstSelection=FM08)
         [主要時系列統計データ表](https://www.stat-search.boj.or.jp/ssi/mtshtml/fm08_m_1.html)
     -->
+    <style>
+        .chart-wrapper {
+            height: calc(100vh - 42px);
+            position: relative;
+        }
+
+        canvas {
+            height: 100% !important;
+            width: 100% !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -42,13 +53,13 @@
         <div class="row">
             <div class="col">
                 <div class="tab-content">
-                    <div class="tab-pane fade" id="tab-pane1" role="tabpanel">
+                    <div class="tab-pane fade chart-wrapper" id="tab-pane1" role="tabpanel">
                         <canvas id="myChart1"></canvas>
                     </div>
-                    <div class="tab-pane fade" id="tab-pane2" role="tabpanel">
+                    <div class="tab-pane fade chart-wrapper" id="tab-pane2" role="tabpanel">
                         <canvas id="myChart2"></canvas>
                     </div>
-                    <div class="tab-pane fade show active" id="tab-pane3" role="tabpanel">
+                    <div class="tab-pane fade show active chart-wrapper" id="tab-pane3" role="tabpanel">
                         <canvas id="myChart3"></canvas>
                     </div>
                 </div>
@@ -70,8 +81,8 @@
                 purple: "rgb(153, 102, 255)",
                 grey: "rgb(201, 203, 207)",
             }
-            const array1 = await fetchData("usd-1874-1939.csv")
-            const array2 = await fetchData("usd-1950-2024.csv")
+            const array1 = await fetchData("usd_1874_1939.csv")
+            const array2 = await fetchData("usd_1950_2024.csv")
             newChart("myChart1", array1, CHART_COLORS.red)
             newChart("myChart2", array2.filter(x => x.date < new Date(1975, 0, 1)), CHART_COLORS.green)
             newChart("myChart3", array2.filter(x => new Date(1970, 0, 1) <= x.date), CHART_COLORS.blue)
