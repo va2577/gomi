@@ -27,12 +27,12 @@
     <style>
         .chart-wrapper {
             height: calc(100vh - 42px);
-            position: relative;
+            width: 100%;
         }
 
         canvas {
-            height: 100% !important;
-            width: 100% !important;
+            height: 100%;
+            width: 100%;
         }
     </style>
 </head>
@@ -120,11 +120,13 @@
                         }],
                     },
                     options: {
+                        maintainAspectRatio: false,
                         plugins: {
                             legend: {
                                 display: false,
                             },
                         },
+                        responsive: true,
                         scales: {
                             x: {
                                 type: "time",

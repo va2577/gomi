@@ -23,6 +23,16 @@
             z-index: 9999;
             background-color: rgba(0, 0, 0, 0);
         }
+
+        .chart-wrapper {
+            height: calc(100vh - 0px);
+            width: 100%;
+        }
+
+        canvas {
+            height: 100%;
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -59,7 +69,7 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col">
+            <div class="col chart-wrapper">
                 <canvas id="myChart1"></canvas>
             </div>
         </div>
@@ -115,11 +125,13 @@
                         }],
                     },
                     options: {
+                        maintainAspectRatio: false,
                         plugins: {
                             legend: {
                                 display: false,
                             },
                         },
+                        responsive: true,
                         scales: {
                             x: {
                                 type: "time",
