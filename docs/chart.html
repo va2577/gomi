@@ -91,7 +91,7 @@
             document.title = symbol.toUpperCase()
 
             async function fetchData(symbol) {
-                const r = await fetch(`${symbol}.csv`)
+                const r = await fetch(`symbol/${symbol}.csv`)
                 const t = await r.text()
                 const a1 = t.split("\n")
                 const a2 = a1.map(x => x.split(","))
