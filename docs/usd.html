@@ -81,8 +81,8 @@
                 purple: "rgb(153, 102, 255)",
                 grey: "rgb(201, 203, 207)",
             }
-            const array1 = await fetchData("usd_1874_1939.csv")
-            const array2 = await fetchData("usd_1950_2024.csv")
+            const array1 = await fetchData("data/usd_1874_1939.csv")
+            const array2 = await fetchData("data/usd_1950_2024.csv")
             newChart("myChart1", array1, CHART_COLORS.red)
             newChart("myChart2", array2.filter(x => x.date < new Date(1975, 0, 1)), CHART_COLORS.green)
             newChart("myChart3", array2.filter(x => new Date(1970, 0, 1) <= x.date), CHART_COLORS.blue)
