@@ -16,3 +16,9 @@
 
 * [Octicons](https://primer.github.io/octicons/)
 * [Bootstrap Icons · Official open source SVG icon library for Bootstrap](https://icons.getbootstrap.com/)
+
+## history
+
+* [Bitcoin USD (BTC-USD) Price History & Historical Data - Yahoo Finance](https://finance.yahoo.com/quote/BTC-USD/history/)
+* [Bitcoin JPY (BTC-JPY) Price History & Historical Data - Yahoo Finance](https://finance.yahoo.com/quote/BTC-JPY/history/)
+* [S&P 500 (^GSPC) Historical Data - Yahoo Finance](https://finance.yahoo.com/quote/%5EGSPC/history/)
