@@ -86,11 +86,13 @@
             }
             const params = new URLSearchParams(location.search)
             const symbol = params.get("symbol") ?? "btcusd"
-            const array1 = await fetchData(symbol)
+            const period1 = parseYmd(params.get("period1"))
+            const period2 = parseYmd(params.get("period2"))
+            const array1 = await fetchData(symbol, period1, period2)
             newChart("myChart1", array1, CHART_COLORS.red)
             document.title = symbol.toUpperCase()
 
-            async function fetchData(symbol) {
+            async function fetchData(symbol, period1, period2) {
                 const r = await fetch(`symbol/${symbol}.csv`)
                 const t = await r.text()
                 const a1 = t.split("\n")
@@ -100,12 +102,14 @@
                     date: new Date(Date.parse(x[0])),
                     price: parseFloat(x[4]),
                 }))
-                a4.sort((a, b) => {
+                const a5 = period1 ? a4.filter(x => new Date(period1) <= x.date) : a4
+                const a6 = period2 ? a5.filter(x => x.date <= new Date(period2)) : a5
+                a6.sort((a, b) => {
                     if (a.date < b.date) return -1
                     if (b.date < a.date) return 1
                     return 0
                 })
-                return a4
+                return a6
             }
 
             function newChart(elementId, array, color) {
@@ -147,6 +151,18 @@
                     },
                 }
                 const chart = new Chart(element, config)
+            }
+
+            function parseYmd(str) {
+                if (typeof str !== "string") { return null }
+                if (!/^\d{8}$/.test(str)) { return null }
+                const y = Number(str.slice(0, 4))
+                const m = Number(str.slice(4, 6)) - 1
+                const d = Number(str.slice(6, 8))
+                const date = new Date(y, m, d)
+                const isDate = date.getFullYear() !== y || date.getMonth() !== m || date.getDate() !== d
+                if (isDate) { return null }
+                return date
             }
         })
         document.addEventListener("DOMContentLoaded", () => {
