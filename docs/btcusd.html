@@ -4,15 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BTCUSD</title>
+    <title>TITLE</title>
     <link rel="icon" href="img/16290097.png" type="image/png">
     <link rel="apple-touch-icon" href="img/16290097.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <!--
-        BTC-USD
-        https://finance.yahoo.com/quote/BTC-USD/history/ ~2025-01-31
-        https://coinmarketcap.com/currencies/bitcoin/ 2025-02-01~
-    -->
     <style>
         #tap-zone {
             position: fixed;
@@ -89,11 +84,14 @@
                 purple: "rgb(153, 102, 255)",
                 grey: "rgb(201, 203, 207)",
             }
-            const array1 = await fetchData("btcusd.csv")
+            const params = new URLSearchParams(location.search)
+            const symbol = params.get("symbol") ?? "btcusd"
+            const array1 = await fetchData(symbol)
             newChart("myChart1", array1, CHART_COLORS.red)
+            document.title = symbol.toUpperCase()
 
-            async function fetchData(input) {
-                const r = await fetch(input)
+            async function fetchData(symbol) {
+                const r = await fetch(`${symbol}.csv`)
                 const t = await r.text()
                 const a1 = t.split("\n")
                 const a2 = a1.map(x => x.split(","))
@@ -117,7 +115,7 @@
                     data: {
                         labels: array.map(x => x.date),
                         datasets: [{
-                            label: "BTCUSD",
+                            label: symbol.toUpperCase(),
                             data: array.map(x => x.price),
                             // borderColor: color,
                             fill: false,
@@ -136,13 +134,13 @@
                             x: {
                                 type: "time",
                                 time: {
-                                    displayFormats: {
-                                        week: "LLL yyyy",
-                                        month: "LLL yyyy",
-                                        quarter: "LLL yyyy",
-                                        year: "yyyy",
-                                    },
-                                    tooltipFormat: "yyyy LLL dd",
+                                    // displayFormats: {
+                                    //     week: "LLL yyyy",
+                                    //     month: "LLL yyyy",
+                                    //     quarter: "LLL yyyy",
+                                    //     year: "yyyy",
+                                    // },
+                                    // tooltipFormat: "yyyy LLL dd",
                                 },
                             },
                         },
