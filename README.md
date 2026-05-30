@@ -22,3 +22,5 @@
 * [Bitcoin USD (BTC-USD) Price History & Historical Data - Yahoo Finance](https://finance.yahoo.com/quote/BTC-USD/history/)
 * [Bitcoin JPY (BTC-JPY) Price History & Historical Data - Yahoo Finance](https://finance.yahoo.com/quote/BTC-JPY/history/)
 * [S&P 500 (^GSPC) Historical Data - Yahoo Finance](https://finance.yahoo.com/quote/%5EGSPC/history/)
+* [Nikkei 225 (^N225) Historical Data - Yahoo Finance](https://finance.yahoo.com/quote/%5EN225/history/)
+* [USD/JPY (JPY=X) Stock Historical Prices & Data - Yahoo Finance](https://finance.yahoo.com/quote/JPY%3DX/history/)
